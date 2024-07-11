@@ -1,8 +1,9 @@
 package kata.tennis.services.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.stream.Stream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,19 +19,44 @@ public class TennisGameStateServiceImplTests {
 
     @ParameterizedTest
     @MethodSource("provideScoreStates")
-    void testGameStateMutations(
+    void test_Game_State_Mutations_For_A(
             // having
             TennisScore aTennisScore,
             TennisScore bTennisScore,
-            Character currentPointWinner,
-            TennisScore aExpectedTennisScore,
-            TennisScore bExpectedTennisScore) {
-        TennisPlayer aPlayer = new TennisPlayer('A', aTennisScore);
-        TennisPlayer bPlayer = new TennisPlayer('B', bTennisScore);
-        TennisGameState lastGameState = new TennisGameState(null, aPlayer, bPlayer);
+            TennisScore aExpectedScore,
+            TennisScore bExpectedScore) {
+        Character currentPointWinner = 'A';
+        TennisPlayer player1 = new TennisPlayer('A', aTennisScore);
+        TennisPlayer player2 = new TennisPlayer('B', bTennisScore);
+        TennisGameState lastGameState = new TennisGameState(null, player1, player2);
 
-        TennisPlayer aExpectedPlayer = new TennisPlayer('A', aExpectedTennisScore);
-        TennisPlayer bExpectedPlayer = new TennisPlayer('B', bExpectedTennisScore);
+        TennisPlayer aExpectedPlayer = new TennisPlayer('A', aExpectedScore);
+        TennisPlayer bExpectedPlayer = new TennisPlayer('B', bExpectedScore);
+
+        TennisGameState expectedGameState = new TennisGameState(currentPointWinner, aExpectedPlayer,
+                bExpectedPlayer);
+
+        // when
+        TennisGameState newGameState = service.getNextGameState(lastGameState, currentPointWinner);
+        // then
+        assertEquals(expectedGameState, newGameState);
+    }
+
+    @ParameterizedTest
+    @MethodSource("provideScoreStates")
+    void test_Game_State_Mutations_For_B(
+            // having
+            TennisScore bTennisScore,
+            TennisScore aTennisScore,
+            TennisScore bExpectedScore,
+            TennisScore aExpectedScore) {
+        Character currentPointWinner = 'B';
+        TennisPlayer player1 = new TennisPlayer('A', aTennisScore);
+        TennisPlayer player2 = new TennisPlayer('B', bTennisScore);
+        TennisGameState lastGameState = new TennisGameState(null, player1, player2);
+
+        TennisPlayer aExpectedPlayer = new TennisPlayer('A', aExpectedScore);
+        TennisPlayer bExpectedPlayer = new TennisPlayer('B', bExpectedScore);
 
         TennisGameState expectedGameState = new TennisGameState(currentPointWinner, aExpectedPlayer,
                 bExpectedPlayer);
@@ -44,47 +70,45 @@ public class TennisGameStateServiceImplTests {
     static Stream<Arguments> provideScoreStates() {
         return Stream.of(
                 Arguments.of(TennisScore.ZERO, TennisScore.ZERO,
-                        'A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                        TennisScore.FIFTEEN, TennisScore.ZERO),
                 Arguments.of(TennisScore.FIFTEEN, TennisScore.ZERO,
-                        'A', TennisScore.THIRTY, TennisScore.ZERO),
+                        TennisScore.THIRTY, TennisScore.ZERO),
                 Arguments.of(TennisScore.THIRTY, TennisScore.ZERO,
-                        'A', TennisScore.FORTY, TennisScore.ZERO),
+                        TennisScore.FORTY, TennisScore.ZERO),
                 Arguments.of(TennisScore.FORTY, TennisScore.ZERO,
-                        'A', TennisScore.WIN, TennisScore.LOSE),
+                        TennisScore.WIN, TennisScore.LOSE),
 
                 Arguments.of(TennisScore.ZERO, TennisScore.FIFTEEN,
-                        'A', TennisScore.FIFTEEN, TennisScore.FIFTEEN),
+                        TennisScore.FIFTEEN, TennisScore.FIFTEEN),
                 Arguments.of(TennisScore.FIFTEEN, TennisScore.FIFTEEN,
-                        'A', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                        TennisScore.THIRTY, TennisScore.FIFTEEN),
                 Arguments.of(TennisScore.THIRTY, TennisScore.FIFTEEN,
-                        'A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                        TennisScore.FORTY, TennisScore.FIFTEEN),
                 Arguments.of(TennisScore.FORTY, TennisScore.FIFTEEN,
-                        'A', TennisScore.WIN, TennisScore.LOSE),
+                        TennisScore.WIN, TennisScore.LOSE),
 
                 Arguments.of(TennisScore.ZERO, TennisScore.THIRTY,
-                        'A', TennisScore.FIFTEEN, TennisScore.THIRTY),
+                        TennisScore.FIFTEEN, TennisScore.THIRTY),
                 Arguments.of(TennisScore.FIFTEEN, TennisScore.THIRTY,
-                        'A', TennisScore.THIRTY, TennisScore.THIRTY),
+                        TennisScore.THIRTY, TennisScore.THIRTY),
                 Arguments.of(TennisScore.THIRTY, TennisScore.THIRTY,
-                        'A', TennisScore.FORTY, TennisScore.THIRTY),
+                        TennisScore.FORTY, TennisScore.THIRTY),
                 Arguments.of(TennisScore.FORTY, TennisScore.THIRTY,
-                        'A', TennisScore.WIN, TennisScore.LOSE),
+                        TennisScore.WIN, TennisScore.LOSE),
 
                 Arguments.of(TennisScore.ZERO, TennisScore.FORTY,
-                        'A', TennisScore.FIFTEEN, TennisScore.FORTY),
+                        TennisScore.FIFTEEN, TennisScore.FORTY),
                 Arguments.of(TennisScore.FIFTEEN, TennisScore.FORTY,
-                        'A', TennisScore.THIRTY, TennisScore.FORTY),
+                        TennisScore.THIRTY, TennisScore.FORTY),
                 Arguments.of(TennisScore.THIRTY, TennisScore.FORTY,
-                        'A', TennisScore.DEUCE, TennisScore.DEUCE),
+                        TennisScore.DEUCE, TennisScore.DEUCE),
                 Arguments.of(TennisScore.ADVANTAGE, TennisScore.FORTY,
-                        'A', TennisScore.WIN, TennisScore.LOSE),
+                        TennisScore.WIN, TennisScore.LOSE),
 
                 Arguments.of(TennisScore.DEUCE, TennisScore.DEUCE,
-                        'A', TennisScore.ADVANTAGE, TennisScore.FORTY),
+                        TennisScore.ADVANTAGE, TennisScore.FORTY),
 
                 Arguments.of(TennisScore.FORTY, TennisScore.ADVANTAGE,
-                        'A', TennisScore.DEUCE, TennisScore.DEUCE)
-
-        );
+                        TennisScore.DEUCE, TennisScore.DEUCE));
     }
 }
