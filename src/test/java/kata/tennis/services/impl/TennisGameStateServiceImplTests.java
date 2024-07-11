@@ -42,10 +42,6 @@ public class TennisGameStateServiceImplTests {
     }
 
     static Stream<Arguments> provideScoreStates() {
-        // return Stream.of(
-        // Arguments.of(null, TennisScore.ZERO, TennisScore.ZERO,
-        // 'A', TennisScore.FIFTEEN, TennisScore.ZERO));
-
         return Stream.of(
                 Arguments.of(TennisScore.ZERO, TennisScore.ZERO,
                         'A', TennisScore.FIFTEEN, TennisScore.ZERO),
