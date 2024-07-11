@@ -19,7 +19,7 @@ public class TennisGameStateServiceImpl implements TennisGameStateService {
                         throws GameAlreadyFinishedException {
                 if (lastGameState.winner().isPresent()) {
                         throw new GameAlreadyFinishedException(String.format(
-                                        "Player %c already won this game, you could not prpceed with this point !",
+                                        "Player %c already won this game, you could not proceed with this point !",
                                         lastGameState.winner().get().id()));
                 }
                 TennisPlayer pointWinner = lastGameState.player1().id().equals((char) currentWinnerId)
@@ -30,7 +30,7 @@ public class TennisGameStateServiceImpl implements TennisGameStateService {
                                 : lastGameState.player1();
                 TennisScoreState currentScore = new TennisScoreState(pointWinner.tennisScore(),
                                 pointLoser.tennisScore());
-                TennisScoreState newScore = tennisScoreService.getNextScore(currentScore);
+                TennisScoreState newScore = tennisScoreService.getNextScoreState(currentScore);
                 TennisPlayer newPointWinner = new TennisPlayer(pointWinner.id(), newScore.winnerScore());
                 TennisPlayer newPointLoser = new TennisPlayer(pointLoser.id(), newScore.loserScore());
                 TennisPlayer newPlayer1 = newPointWinner.id().equals(lastGameState.player1().id()) ? newPointWinner

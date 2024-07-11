@@ -26,15 +26,15 @@ public class TennisScoreStateServiceImpl implements TennisScoreStateService {
     }
 
     @Override
-    public TennisScoreState getNextScore(TennisScoreState currentScore) {
+    public TennisScoreState getNextScoreState(TennisScoreState currentScore) {
         TennisScore winnerScore = currentScore.winnerScore();
         TennisScore loserScore = currentScore.loserScore();
-        TennisScore newWinnerScore = newWinnerScore(winnerScore, loserScore);
-        TennisScore newLoserScore = newLoserScore(loserScore, newWinnerScore);
+        TennisScore newWinnerScore = computeNewWinnerScore(winnerScore, loserScore);
+        TennisScore newLoserScore = computeNewLoserScore(loserScore, newWinnerScore);
         return new TennisScoreState(newWinnerScore, newLoserScore);
     }
 
-    private TennisScore newWinnerScore(TennisScore winnerScore, TennisScore loserScore) {
+    private TennisScore computeNewWinnerScore(TennisScore winnerScore, TennisScore loserScore) {
         boolean bothWillBeForty = (winnerScore.equals(TennisScore.THIRTY) &&
                 loserScore.equals(TennisScore.FORTY));
         boolean bothWillBeAdvantage = (winnerScore.equals(TennisScore.FORTY) &&
@@ -46,7 +46,7 @@ public class TennisScoreStateServiceImpl implements TennisScoreStateService {
         return defaultScoreWinMutations.get(winnerScore);
     }
 
-    private TennisScore newLoserScore(TennisScore loserScore, TennisScore newWinnerScore) {
+    private TennisScore computeNewLoserScore(TennisScore loserScore, TennisScore newWinnerScore) {
         if (newWinnerScore.equals(TennisScore.WIN)) {
             return TennisScore.LOSE;
         }
