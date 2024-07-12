@@ -3,12 +3,16 @@ package kata.tennis.services.impl;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 import kata.tennis.domain.TennisPlayer;
 import kata.tennis.domain.TennisScore;
 import kata.tennis.domain.state.TennisGameState;
 import kata.tennis.services.TennisGameHistoryProcessorService;
+import kata.tennis.services.exceptions.GameAlreadyFinishedException;
+import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
 public class TennisGameHistoryProcessorServiceImplTests {
     TennisGameHistoryProcessorService service = new TennisGameHistoryProcessorServiceImpl();
@@ -79,14 +83,14 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_single_player_B_without_win() {
-    // having
-    String gameHistory = "BBB";
-    String expectedOutput = """
-    B > Player B: 15 / Player C: 0
-    B > Player B: 30 / Player C: 0
-    B > Player B: 40 / Player C: 0
-    """;
-    List<TennisGameState> expected = List.of(
+        // having
+        String gameHistory = "BBB";
+        String expectedOutput = """
+                B > Player B: 15 / Player C: 0
+                B > Player B: 30 / Player C: 0
+                B > Player B: 40 / Player C: 0
+                """;
+        List<TennisGameState> expected = List.of(
                 state(null, 'B', TennisScore.ZERO, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.THIRTY, 'C', TennisScore.ZERO),
@@ -314,5 +318,43 @@ public class TennisGameHistoryProcessorServiceImplTests {
         List<TennisGameState> gameStates = service.generateGameStatesFromHistory(gameHistory);
         // then
         assertEquals(expected, gameStates);
+    }
+
+    // --------- failing cases ----------//
+
+    @Test
+    public void test_UnsupportedPlayersCountException_more_than_two() {
+        // having
+        String gameHistory = "ABC";
+        // when
+        Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
+            List<TennisGameState> gameStates = service.generateGameStatesFromHistory(gameHistory);
+        });
+        // then
+        assertInstanceOf(UnsupportedPlayersCountException.class, thrown);
+    }
+
+    @Test
+    public void test_UnsupportedPlayersCountException_empty_history() {
+        // having
+        String gameHistory = "";
+        // when
+        Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
+            List<TennisGameState> gameStates = service.generateGameStatesFromHistory(gameHistory);
+        });
+        // then
+        assertInstanceOf(UnsupportedPlayersCountException.class, thrown);
+    }
+
+    @Test
+    public void test_GameAlreadyFinishedException() {
+        // having
+        String gameHistory = "AAAAB";
+        // when
+        Exception thrown = assertThrows(GameAlreadyFinishedException.class, () -> {
+            List<TennisGameState> gameStates = service.generateGameStatesFromHistory(gameHistory);
+        });
+        // then
+        assertInstanceOf(GameAlreadyFinishedException.class, thrown);
     }
 }
