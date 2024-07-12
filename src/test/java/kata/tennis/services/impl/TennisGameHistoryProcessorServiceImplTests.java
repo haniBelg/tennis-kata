@@ -17,23 +17,6 @@ import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 public class TennisGameHistoryProcessorServiceImplTests {
     TennisGameHistoryProcessorService service = new TennisGameHistoryProcessorServiceImpl();
 
-    private TennisGameState state(Character currentWinnerId, TennisScore aScore, TennisScore bScore) {
-        return new TennisGameState(currentWinnerId,
-                new TennisPlayer('A', aScore),
-                new TennisPlayer('B', bScore));
-    }
-
-    private TennisGameState state(
-            Character currentWinnerId,
-            Character id1,
-            TennisScore aScore,
-            Character id2,
-            TennisScore bScore) {
-        return new TennisGameState(currentWinnerId,
-                new TennisPlayer(id1, aScore),
-                new TennisPlayer(id2, bScore));
-    }
-
     @Test
     public void test_single_player_A_win() {
         // having
@@ -356,5 +339,23 @@ public class TennisGameHistoryProcessorServiceImplTests {
         });
         // then
         assertInstanceOf(GameAlreadyFinishedException.class, thrown);
+    }
+
+    // helpers to create expected values easily
+    private TennisGameState state(Character currentWinnerId, TennisScore aScore, TennisScore bScore) {
+        return new TennisGameState(currentWinnerId,
+                new TennisPlayer('A', aScore),
+                new TennisPlayer('B', bScore));
+    }
+
+    private TennisGameState state(
+            Character currentWinnerId,
+            Character id1,
+            TennisScore aScore,
+            Character id2,
+            TennisScore bScore) {
+        return new TennisGameState(currentWinnerId,
+                new TennisPlayer(id1, aScore),
+                new TennisPlayer(id2, bScore));
     }
 }

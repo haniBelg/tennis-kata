@@ -14,6 +14,14 @@ import kata.tennis.services.exceptions.GameAlreadyFinishedException;
 import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
 public class TennisGameHistoryPrinterServiceImplTests {
+
+    // we only test our interface (public methods)
+    // this would help us keep stable tests around public contracts not around
+    // our specefic implementation of the interface contract
+
+    // we would change tests only if our interface has changed (and that's something
+    // that we would like to limit)
+
     TennisGameHistoryPrinterService tennisGameHistoryPrinterService;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final PrintStream originalOut = System.out;
@@ -319,7 +327,6 @@ public class TennisGameHistoryPrinterServiceImplTests {
         // then
         assertInstanceOf(UnsupportedPlayersCountException.class, thrown);
     }
-
 
     @Test
     public void test_UnsupportedPlayersCountException_empty_history() {

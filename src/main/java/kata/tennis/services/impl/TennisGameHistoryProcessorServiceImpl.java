@@ -11,13 +11,39 @@ import kata.tennis.services.TennisGameStateService;
 import kata.tennis.services.exceptions.GameAlreadyFinishedException;
 import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
+/**
+ * Implementation of {@link TennisGameHistoryProcessorService} that processes
+ * the history of a tennis game
+ * and generates a sequence of game states.
+ */
 public class TennisGameHistoryProcessorServiceImpl implements TennisGameHistoryProcessorService {
     private final TennisGameStateService tennisGameStateService;
 
+    /**
+     * Constructs a new instance of {@code TennisGameHistoryProcessorServiceImpl}.
+     * Initializes the {@link TennisGameStateService}.
+     */
     public TennisGameHistoryProcessorServiceImpl() {
         this.tennisGameStateService = new TennisGameStateServiceImpl();
     }
 
+    /**
+     * {@inheritDoc}
+     * <p>
+     * This implementation generates a sequence of game states from the game history
+     * string.
+     * </p>
+     * 
+     * @param gameHistory the history of the game in a specific format that will be
+     *                    processed
+     *                    to generate the sequence of game states.
+     * @return a list of {@link TennisGameState} representing the states of the game
+     *         at various points in the history.
+     * @throws UnsupportedPlayersCountException if the game history indicates an
+     *                                          unsupported number of players.
+     * @throws GameAlreadyFinishedException     if the game history indicates that
+     *                                          the game has already finished.
+     */
     @Override
     public List<TennisGameState> generateGameStatesFromHistory(String gameHistory)
             throws UnsupportedPlayersCountException, GameAlreadyFinishedException {
@@ -32,6 +58,17 @@ public class TennisGameHistoryProcessorServiceImpl implements TennisGameHistoryP
         return states;
     }
 
+    /**
+     * Generates the initial state of the game from the game history string.
+     * 
+     * @param gameHistory the history of the game in a specific format that will be
+     *                    processed
+     *                    to generate the initial game state.
+     * @return the initial {@link TennisGameState} representing the starting state
+     *         of the game.
+     * @throws UnsupportedPlayersCountException if the game history indicates an
+     *                                          unsupported number of players.
+     */
     private TennisGameState generateInitialGameStateFromHistory(String gameHistory)
             throws UnsupportedPlayersCountException {
         List<Character> playerIds = gameHistory.chars()
