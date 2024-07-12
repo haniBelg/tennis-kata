@@ -46,6 +46,9 @@ public class TennisScoreStateServiceImpl implements TennisScoreStateService {
      */
     @Override
     public TennisScoreState getNextScoreState(TennisScoreState currentScore) {
+        // TODO: Consider throwing an exception for illegal game states as input.
+        // For example, if the input state is "40 / 40", it should be "DEUCE / DEUCE"
+        // instead. This state should never occur in valid game progression.
         TennisScore winnerScore = currentScore.winnerScore();
         TennisScore loserScore = currentScore.loserScore();
         TennisScore newWinnerScore = computeNewWinnerScore(winnerScore, loserScore);
