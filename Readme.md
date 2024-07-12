@@ -6,7 +6,7 @@ new TennisGameHistoryPrinterServiceImpl();
 //process + print score states
 tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
 ```
-#this will show :
+> this will print :
 
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
