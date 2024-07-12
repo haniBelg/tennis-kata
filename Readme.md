@@ -21,7 +21,7 @@
                 A > Player A wins the game
 
 - lunch with command line :
-  > mvn clean install
+> mvn clean install
 
 > java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
 
