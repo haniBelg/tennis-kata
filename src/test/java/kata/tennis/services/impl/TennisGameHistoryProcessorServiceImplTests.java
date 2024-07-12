@@ -19,7 +19,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_single_player_A_win() {
-        // having
+        // given
         String gameHistory = "AAAA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -34,7 +34,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_single_player_A_without_win() {
-        // having
+        // given
         String gameHistory = "AAA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -48,7 +48,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_single_player_B_win() {
-        // having
+        // given
         String gameHistory = "BBBB";
         List<TennisGameState> expected = List.of(
                 state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
@@ -63,7 +63,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_single_player_B_without_win() {
-        // having
+        // given
         String gameHistory = "BBB";
         List<TennisGameState> expected = List.of(
                 state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
@@ -77,7 +77,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_both_players_without_win() {
-        // having
+        // given
         String gameHistory = "AABA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -92,7 +92,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_both_players_with_DEUCE() {
-        // having
+        // given
         String gameHistory = "AABABB";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -109,7 +109,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_A_win() {
-        // having
+        // given
         String gameHistory = "AABABA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -126,7 +126,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_B_gain_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBB";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -144,7 +144,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_B_gain_ADVANTAGE_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBBB";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -163,7 +163,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_A_gain_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -181,7 +181,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_A_gain_ADVANTAGE_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBAA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -200,7 +200,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBBA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -219,7 +219,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage() {
-        // having
+        // given
         String gameHistory = "AABABBBAA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -239,7 +239,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBBAAA";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -260,7 +260,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_complex_scenario() {
-        // having
+        // given
         String gameHistory = "ABBAABABBAABBB";
         List<TennisGameState> expected = List.of(
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
@@ -287,7 +287,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_UnsupportedPlayersCountException_more_than_two() {
-        // having
+        // given
         String gameHistory = "ABC";
         // when
         Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
@@ -299,7 +299,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_UnsupportedPlayersCountException_empty_history() {
-        // having
+        // given
         String gameHistory = "";
         // when
         Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
@@ -311,7 +311,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
 
     @Test
     public void test_GameAlreadyFinishedException() {
-        // having
+        // given
         String gameHistory = "AAAAB";
         // when
         Exception thrown = assertThrows(GameAlreadyFinishedException.class, () -> {

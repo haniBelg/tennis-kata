@@ -33,7 +33,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_single_player_A_win() {
-        // having
+        // given
         String gameHistory = "AAAA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -49,7 +49,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_single_player_A_without_win() {
-        // having
+        // given
         String gameHistory = "AAA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -64,7 +64,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_single_player_B_win() {
-        // having
+        // given
         String gameHistory = "BBBB";
         String expectedOutput = """
                 B > Player B: 15 / Player C: 0
@@ -80,7 +80,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_single_player_B_without_win() {
-        // having
+        // given
         String gameHistory = "BBB";
         String expectedOutput = """
                 B > Player B: 15 / Player C: 0
@@ -95,7 +95,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_both_players_without_win() {
-        // having
+        // given
         String gameHistory = "AABA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -111,7 +111,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_both_players_with_DEUCE() {
-        // having
+        // given
         String gameHistory = "AABABB";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -130,7 +130,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_A_win() {
-        // having
+        // given
         String gameHistory = "AABABA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -148,7 +148,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_B_gain_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBB";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -167,7 +167,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_B_gain_ADVANTAGE_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBBB";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -187,7 +187,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_A_gain_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -206,7 +206,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_A_gain_ADVANTAGE_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBAA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -226,7 +226,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE() {
-        // having
+        // given
         String gameHistory = "AABABBBA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -246,7 +246,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage() {
-        // having
+        // given
         String gameHistory = "AABABBBAA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -267,7 +267,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage_and_win() {
-        // having
+        // given
         String gameHistory = "AABABBBAAA";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -289,7 +289,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_complex_scenario() {
-        // having
+        // given
         String gameHistory = "ABBAABABBAABBB";
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
@@ -317,7 +317,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_UnsupportedPlayersCountException_more_than_two() {
-        // having
+        // given
         String gameHistory = "ABC";
         // when
         Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
@@ -329,7 +329,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_UnsupportedPlayersCountException_empty_history() {
-        // having
+        // given
         String gameHistory = "";
         // when
         Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
@@ -341,7 +341,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
 
     @Test
     public void test_GameAlreadyFinishedException() {
-        // having
+        // given
         String gameHistory = "AAAAB";
         // when
         Exception thrown = assertThrows(GameAlreadyFinishedException.class, () -> {

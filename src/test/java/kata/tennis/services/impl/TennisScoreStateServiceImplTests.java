@@ -17,7 +17,7 @@ public class TennisScoreStateServiceImplTests {
     @ParameterizedTest
     @MethodSource("provideScoreStates")
     void testScoreStateMutations(
-            // having
+            // given
             TennisScoreState currentScoreState,
             TennisScoreState expected) {
         // when

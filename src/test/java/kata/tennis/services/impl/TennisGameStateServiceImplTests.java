@@ -1,9 +1,8 @@
 package kata.tennis.services.impl;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 import java.util.stream.Stream;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,7 +19,7 @@ public class TennisGameStateServiceImplTests {
     @ParameterizedTest
     @MethodSource("provideScoreStates")
     void test_Game_State_Mutations_For_A(
-            // having
+            // given
             TennisScore aTennisScore,
             TennisScore bTennisScore,
             TennisScore aExpectedScore,
@@ -45,7 +44,7 @@ public class TennisGameStateServiceImplTests {
     @ParameterizedTest
     @MethodSource("provideScoreStates")
     void test_Game_State_Mutations_For_B(
-            // having
+            // given
             TennisScore bTennisScore,
             TennisScore aTennisScore,
             TennisScore bExpectedScore,
