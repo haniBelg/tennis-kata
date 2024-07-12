@@ -21,6 +21,20 @@ public class TennisGameHistoryProcessorServiceImpl implements TennisGameHistoryP
 
     /**
      * Constructs a new instance of {@code TennisGameHistoryProcessorServiceImpl}.
+     * Initializes the {@link TennisGameStateService} to adhere to the Dependency
+     * Inversion Principle (DIP),
+     * where this service relies on the abstraction of
+     * {@link TennisGameStateService}.
+     *
+     * @param tennisGameStateService The service responsible for managing the state
+     *                               of a tennis game.
+     */
+    public TennisGameHistoryProcessorServiceImpl(TennisGameStateService tennisGameStateService) {
+        this.tennisGameStateService = tennisGameStateService;
+    }
+
+    /**
+     * Constructs a new instance of {@code TennisGameHistoryProcessorServiceImpl}.
      * Initializes the {@link TennisGameStateService}.
      */
     public TennisGameHistoryProcessorServiceImpl() {

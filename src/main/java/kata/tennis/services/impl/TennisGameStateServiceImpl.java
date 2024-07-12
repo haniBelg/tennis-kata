@@ -16,6 +16,20 @@ public class TennisGameStateServiceImpl implements TennisGameStateService {
 
         /**
          * Constructs a new instance of {@code TennisGameStateServiceImpl}.
+         * Initializes the {@link TennisScoreStateService} to adhere to the Dependency
+         * Inversion Principle (DIP),
+         * where this service relies on the abstraction of
+         * {@link TennisScoreStateService}.
+         *
+         * @param tennisScoreService The service responsible for managing tennis score
+         *                           states.
+         */
+        public TennisGameStateServiceImpl(TennisScoreStateService tennisScoreService) {
+                this.tennisScoreService = tennisScoreService;
+        }
+
+        /**
+         * Constructs a new instance of {@code TennisGameStateServiceImpl}.
          * Initializes the {@link TennisScoreStateService}.
          */
         public TennisGameStateServiceImpl() {

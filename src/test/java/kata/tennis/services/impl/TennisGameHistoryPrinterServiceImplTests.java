@@ -15,12 +15,11 @@ import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
 public class TennisGameHistoryPrinterServiceImplTests {
 
-    // we only test our interface (public methods)
-    // this would help us keep stable tests around public contracts not around
-    // our specefic implementation of the interface contract
-
-    // we would change tests only if our interface has changed (and that's something
-    // that we would like to limit)
+    // Tests are designed around the SOLID principle of Dependency Inversion,
+    // focusing on the TennisGameHistoryPrinterService interface rather than its
+    // specific implementation.
+    // This approach ensures that tests remain stable against changes in the
+    // interface, promoting robustness.
 
     TennisGameHistoryPrinterService tennisGameHistoryPrinterService;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();

@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 import kata.tennis.domain.TennisPlayer;
 import kata.tennis.domain.state.TennisGameState;
 import kata.tennis.services.TennisGameHistoryPrinterService;
+import kata.tennis.services.TennisGameHistoryProcessorService;
 import kata.tennis.services.exceptions.GameAlreadyFinishedException;
 import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
@@ -16,11 +17,27 @@ import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
  */
 public class TennisGameHistoryPrinterServiceImpl implements TennisGameHistoryPrinterService {
     private final Consumer<String> printer;
-    private final TennisGameHistoryProcessorServiceImpl tennisGameHistoryProcessorService;
+    private final TennisGameHistoryProcessorService tennisGameHistoryProcessorService;
 
     /**
      * Constructs a new instance of {@code TennisGameHistoryPrinterServiceImpl}.
-     * Initializes the {@link TennisGameHistoryProcessorServiceImpl} and sets the
+     * Initializes the {@link TennisGameHistoryProcessorService} to adhere to the
+     * Dependency Inversion Principle (DIP),
+     * where this service relies on the abstraction of
+     * {@link TennisGameHistoryProcessorService}.
+     * Sets the default printer to {@link System#out}.
+     *
+     * @param tennisGameHistoryProcessorService The service responsible for
+     *                                          processing tennis game history.
+     */
+    public TennisGameHistoryPrinterServiceImpl(TennisGameHistoryProcessorService tennisGameHistoryProcessorService) {
+        this.tennisGameHistoryProcessorService = tennisGameHistoryProcessorService;
+        this.printer = System.out::println;
+    }
+
+    /**
+     * Constructs a new instance of {@code TennisGameHistoryPrinterServiceImpl}.
+     * Initializes the {@link TennisGameHistoryProcessorService} and sets the
      * default printer to {@link System#out}.
      */
     public TennisGameHistoryPrinterServiceImpl() {
