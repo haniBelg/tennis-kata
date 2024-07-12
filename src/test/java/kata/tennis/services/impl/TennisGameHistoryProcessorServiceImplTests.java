@@ -15,6 +15,12 @@ import kata.tennis.services.exceptions.GameAlreadyFinishedException;
 import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
 public class TennisGameHistoryProcessorServiceImplTests {
+
+    // Tests are designed around the SOLID principle of Dependency Inversion,
+    // focusing on the TennisGameHistoryPrinterService interface rather than its
+    // specific implementation.
+    // This approach ensures that tests remain stable against changes in the
+    // interface, promoting robustness.
     TennisGameHistoryProcessorService service = new TennisGameHistoryProcessorServiceImpl();
 
     @Test
