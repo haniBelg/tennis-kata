@@ -1,11 +1,11 @@
 package kata;
 
-import kata.tennis.services.TennisGameHistoryPrinterService;
-import kata.tennis.services.impl.TennisGameHistoryPrinterServiceImpl;
+import kata.tennis.GameRunner;
 
+//this class is used to offer a command line entry point
 public class TennisGameApplication {
     public static void main(String[] args) {
-        TennisGameHistoryPrinterService tennisGameHistoryPrinterService = new TennisGameHistoryPrinterServiceImpl();
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(args[0]);
+        GameRunner gameRunner = new GameRunner();
+        gameRunner.printGameScoresFromHistory(args[0]);
     }
 }

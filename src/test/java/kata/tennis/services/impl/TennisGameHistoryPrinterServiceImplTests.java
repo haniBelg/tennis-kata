@@ -1,17 +1,18 @@
 package kata.tennis.services.impl;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertInstanceOf;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import kata.tennis.domain.TennisPlayer;
+import kata.tennis.domain.TennisScore;
+import kata.tennis.domain.state.TennisGameState;
 import kata.tennis.services.TennisGameHistoryPrinterService;
-import kata.tennis.services.exceptions.GameAlreadyFinishedException;
-import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
 public class TennisGameHistoryPrinterServiceImplTests {
 
@@ -34,7 +35,11 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_single_player_A_win() {
         // given
-        String gameHistory = "AAAA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('A', TennisScore.FORTY, TennisScore.ZERO),
+                state('A', TennisScore.WIN, TennisScore.LOSE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -42,7 +47,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -50,14 +55,17 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_single_player_A_without_win() {
         // given
-        String gameHistory = "AAA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('A', TennisScore.FORTY, TennisScore.ZERO));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
                 A > Player A: 40 / Player B: 0
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -65,7 +73,11 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_single_player_B_win() {
         // given
-        String gameHistory = "BBBB";
+        List<TennisGameState> states = List.of(
+                state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
+                state('B', 'B', TennisScore.THIRTY, 'C', TennisScore.ZERO),
+                state('B', 'B', TennisScore.FORTY, 'C', TennisScore.ZERO),
+                state('B', 'B', TennisScore.WIN, 'C', TennisScore.LOSE));
         String expectedOutput = """
                 B > Player B: 15 / Player C: 0
                 B > Player B: 30 / Player C: 0
@@ -73,7 +85,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 B > Player B wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -81,14 +93,17 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_single_player_B_without_win() {
         // given
-        String gameHistory = "BBB";
+        List<TennisGameState> states = List.of(
+                state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
+                state('B', 'B', TennisScore.THIRTY, 'C', TennisScore.ZERO),
+                state('B', 'B', TennisScore.FORTY, 'C', TennisScore.ZERO));
         String expectedOutput = """
                 B > Player B: 15 / Player C: 0
                 B > Player B: 30 / Player C: 0
                 B > Player B: 40 / Player C: 0
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -96,7 +111,11 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_both_players_without_win() {
         // given
-        String gameHistory = "AABA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -104,7 +123,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A: 40 / Player B: 15
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -112,7 +131,13 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_both_players_with_DEUCE() {
         // given
-        String gameHistory = "AABABB";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -122,7 +147,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 B > Player A: DEUCE / Player B: DEUCE
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         originalOut.println(outContent.toString());
         assertEquals(expectedOutput, outContent.toString());
@@ -131,7 +156,13 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_A_win() {
         // given
-        String gameHistory = "AABABA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('A', TennisScore.WIN, TennisScore.LOSE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -141,7 +172,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -149,7 +180,14 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_B_gain_ADVANTAGE() {
         // given
-        String gameHistory = "AABABBB";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -160,7 +198,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 B > Player A: 40 / Player B: ADVANTAGE
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -168,7 +206,15 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_B_gain_ADVANTAGE_and_win() {
         // given
-        String gameHistory = "AABABBBB";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('B', TennisScore.LOSE, TennisScore.WIN));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -180,7 +226,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 B > Player B wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -188,7 +234,14 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_A_gain_ADVANTAGE() {
         // given
-        String gameHistory = "AABABBA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -199,7 +252,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A: ADVANTAGE / Player B: 40
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -207,7 +260,15 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_A_gain_ADVANTAGE_and_win() {
         // given
-        String gameHistory = "AABABBAA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY),
+                state('A', TennisScore.WIN, TennisScore.LOSE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -219,7 +280,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -227,7 +288,15 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_B_lose_ADVANTAGE() {
         // given
-        String gameHistory = "AABABBBA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('A', TennisScore.DEUCE, TennisScore.DEUCE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -239,7 +308,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A: DEUCE / Player B: DEUCE
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -247,7 +316,16 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage() {
         // given
-        String gameHistory = "AABABBBAA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('A', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -260,7 +338,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A: ADVANTAGE / Player B: 40
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -268,7 +346,17 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_player_B_lose_ADVANTAGE_A_gain_advantage_and_win() {
         // given
-        String gameHistory = "AABABBBAAA";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('A', TennisScore.THIRTY, TennisScore.ZERO),
+                state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
+                state('A', TennisScore.FORTY, TennisScore.FIFTEEN),
+                state('B', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('A', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY),
+                state('A', TennisScore.WIN, TennisScore.LOSE));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
@@ -282,7 +370,7 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 A > Player A wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
@@ -290,7 +378,21 @@ public class TennisGameHistoryPrinterServiceImplTests {
     @Test
     public void test_complex_scenario() {
         // given
-        String gameHistory = "ABBAABABBAABBB";
+        List<TennisGameState> states = List.of(
+                state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
+                state('B', TennisScore.FIFTEEN, TennisScore.FIFTEEN),
+                state('B', TennisScore.FIFTEEN, TennisScore.THIRTY),
+                state('A', TennisScore.THIRTY, TennisScore.THIRTY),
+                state('A', TennisScore.FORTY, TennisScore.THIRTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('A', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('A', TennisScore.ADVANTAGE, TennisScore.FORTY),
+                state('B', TennisScore.DEUCE, TennisScore.DEUCE),
+                state('B', TennisScore.FORTY, TennisScore.ADVANTAGE),
+                state('B', TennisScore.LOSE, TennisScore.WIN));
         String expectedOutput = """
                 A > Player A: 15 / Player B: 0
                 B > Player A: 15 / Player B: 15
@@ -308,46 +410,26 @@ public class TennisGameHistoryPrinterServiceImplTests {
                 B > Player B wins the game
                 """;
         // when
-        tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
+        tennisGameHistoryPrinterService.printScoreFromGameStates(states);
         // then
         assertEquals(expectedOutput, outContent.toString());
     }
 
-    // --------- failing cases ----------//
-
-    @Test
-    public void test_UnsupportedPlayersCountException_more_than_two() {
-        // given
-        String gameHistory = "ABC";
-        // when
-        Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
-            tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
-        });
-        // then
-        assertInstanceOf(UnsupportedPlayersCountException.class, thrown);
+    // helpers to create expected values easily
+    private TennisGameState state(Character currentWinnerId, TennisScore aScore, TennisScore bScore) {
+        return new TennisGameState(currentWinnerId,
+                new TennisPlayer('A', aScore),
+                new TennisPlayer('B', bScore));
     }
 
-    @Test
-    public void test_UnsupportedPlayersCountException_empty_history() {
-        // given
-        String gameHistory = "";
-        // when
-        Exception thrown = assertThrows(UnsupportedPlayersCountException.class, () -> {
-            tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
-        });
-        // then
-        assertInstanceOf(UnsupportedPlayersCountException.class, thrown);
-    }
-
-    @Test
-    public void test_GameAlreadyFinishedException() {
-        // given
-        String gameHistory = "AAAAB";
-        // when
-        Exception thrown = assertThrows(GameAlreadyFinishedException.class, () -> {
-            tennisGameHistoryPrinterService.printScoreFromGameHistory(gameHistory);
-        });
-        // then
-        assertInstanceOf(GameAlreadyFinishedException.class, thrown);
+    private TennisGameState state(
+            Character currentWinnerId,
+            Character id1,
+            TennisScore aScore,
+            Character id2,
+            TennisScore bScore) {
+        return new TennisGameState(currentWinnerId,
+                new TennisPlayer(id1, aScore),
+                new TennisPlayer(id2, bScore));
     }
 }

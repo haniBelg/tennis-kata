@@ -1,12 +1,10 @@
-* lunch programatically :
+- lunch programatically :
 
 ```
-//create the printing service
-TennisGameHistoryPrinterService tennisGameHistoryPrinterService =
-new TennisGameHistoryPrinterServiceImpl();
-
-//process + print score states
-tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
+        // this is the class that glues all our services to deliver the needed method.
+        GameRunner gameRunner = new GameRunner();
+        // this is the method that recieves game history and prints the scores.
+        gameRunner.printGameScoresFromHistory("AABABBBAAA");
 ```
 
 > this will print :
@@ -22,8 +20,8 @@ tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
                 A > Player A: ADVANTAGE / Player B: 40
                 A > Player A wins the game
 
-* lunch with command line :
-> mvn clean install
+- lunch with command line :
+  > mvn clean install
 
 > java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
 
@@ -37,6 +35,5 @@ tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
                 B > Player A: DEUCE / Player B: DEUCE
                 B > Player A: 40 / Player B: ADVANTAGE
                 B > Player B wins the game
-
 
 ☝️this uses [TennisGameApplication.java](https://github.com/haniBelg/tennis-kata/blob/master/src/main/java/kata/TennisGameApplication.java) as main class entrypoint

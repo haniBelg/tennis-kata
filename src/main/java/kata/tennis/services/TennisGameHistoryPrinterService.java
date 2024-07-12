@@ -1,7 +1,8 @@
 package kata.tennis.services;
 
-import kata.tennis.services.exceptions.GameAlreadyFinishedException;
-import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
+import java.util.List;
+
+import kata.tennis.domain.state.TennisGameState;
 
 /**
  * This interface defines the service for printing the score from a tennis game
@@ -9,16 +10,11 @@ import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
  */
 public interface TennisGameHistoryPrinterService {
     /**
-     * Prints the score from the given game history.
+     * Prints the score from the given list of tennis game states.
      *
-     * @param gameHistory the history of the game in a specific format that will be
-     *                    processed
-     *                    to extract and print the current score.
-     * @throws UnsupportedPlayersCountException if the game history indicates an
-     *                                          unsupported number of players.
-     * @throws GameAlreadyFinishedException     if the game history indicates that
-     *                                          the game has already finished.
+     * @param tennisGameStates the list of game states representing the history of
+     *                         the game,
+     *                         which will be printed.
      */
-    public void printScoreFromGameHistory(String gameHistory)
-            throws UnsupportedPlayersCountException, GameAlreadyFinishedException;
+    public void printScoreFromGameStates(List<TennisGameState> tennisGameStates);
 }
