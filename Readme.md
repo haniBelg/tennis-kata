@@ -20,7 +20,10 @@ tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
                 A > Player A: ADVANTAGE / Player B: 40
                 A > Player A wins the game
 
-> lunch with command line : java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
+* lunch with command line :
+> mvn clean install
+
+> java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
 
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
