@@ -22,7 +22,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AAAA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('A', TennisScore.FORTY, TennisScore.ZERO),
@@ -38,7 +37,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AAA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('A', TennisScore.FORTY, TennisScore.ZERO));
@@ -53,7 +51,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "BBBB";
         List<TennisGameState> expected = List.of(
-                state(null, 'B', TennisScore.ZERO, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.THIRTY, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.FORTY, 'C', TennisScore.ZERO),
@@ -68,13 +65,7 @@ public class TennisGameHistoryProcessorServiceImplTests {
     public void test_single_player_B_without_win() {
         // having
         String gameHistory = "BBB";
-        String expectedOutput = """
-                B > Player B: 15 / Player C: 0
-                B > Player B: 30 / Player C: 0
-                B > Player B: 40 / Player C: 0
-                """;
         List<TennisGameState> expected = List.of(
-                state(null, 'B', TennisScore.ZERO, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.FIFTEEN, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.THIRTY, 'C', TennisScore.ZERO),
                 state('B', 'B', TennisScore.FORTY, 'C', TennisScore.ZERO));
@@ -89,7 +80,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -105,7 +95,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABB";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -123,7 +112,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -141,7 +129,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBB";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -160,7 +147,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBBB";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -180,7 +166,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -199,7 +184,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBAA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -219,7 +203,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBBA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -239,7 +222,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBBAA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -260,7 +242,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "AABABBBAAA";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('A', TennisScore.THIRTY, TennisScore.ZERO),
                 state('B', TennisScore.THIRTY, TennisScore.FIFTEEN),
@@ -282,7 +263,6 @@ public class TennisGameHistoryProcessorServiceImplTests {
         // having
         String gameHistory = "ABBAABABBAABBB";
         List<TennisGameState> expected = List.of(
-                state(null, TennisScore.ZERO, TennisScore.ZERO),
                 state('A', TennisScore.FIFTEEN, TennisScore.ZERO),
                 state('B', TennisScore.FIFTEEN, TennisScore.FIFTEEN),
                 state('B', TennisScore.FIFTEEN, TennisScore.THIRTY),

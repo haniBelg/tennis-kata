@@ -64,7 +64,6 @@ public class TennisGameHistoryProcessorServiceImpl implements TennisGameHistoryP
         List<TennisGameState> states = new ArrayList<>();
         TennisGameState initialGameState = generateInitialGameStateFromHistory(gameHistory);
         TennisGameState lastGameState = initialGameState;
-        states.add(lastGameState);
         for (var currentWinnerId : gameHistory.toCharArray()) {
             lastGameState = tennisGameStateService.getNextGameState(lastGameState, currentWinnerId);
             states.add(lastGameState);

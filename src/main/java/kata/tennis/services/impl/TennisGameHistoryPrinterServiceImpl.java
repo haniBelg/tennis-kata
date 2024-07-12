@@ -1,7 +1,6 @@
 package kata.tennis.services.impl;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.function.Consumer;
 
 import kata.tennis.domain.TennisPlayer;
@@ -14,6 +13,12 @@ import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 /**
  * Implementation of {@link TennisGameHistoryPrinterService} that prints the
  * score from a tennis game history.
+ * <p>
+ * This class applies the Decorator design pattern to ensure adherence to the
+ * Single Responsibility Principle (SRP). It separates the responsibility of
+ * printing game history scores from processing game states, thereby improving
+ * maintainability and readability of the code.
+ * </p>
  */
 public class TennisGameHistoryPrinterServiceImpl implements TennisGameHistoryPrinterService {
     private final Consumer<String> printer;
@@ -48,10 +53,11 @@ public class TennisGameHistoryPrinterServiceImpl implements TennisGameHistoryPri
     /**
      * {@inheritDoc}
      * <p>
-     * This implementation filters game states with a non-null current winner ID,
-     * and prints the score or the game winner as appropriate.
+     * This implementation processes the game history to generate states and then
+     * prints the score or the game winner as appropriate.
      * </p>
      * 
+     * @param gameHistory the history of the tennis game represented as a string.
      * @throws UnsupportedPlayersCountException if the game history indicates an
      *                                          unsupported number of players.
      * @throws GameAlreadyFinishedException     if the game history indicates that
@@ -60,8 +66,7 @@ public class TennisGameHistoryPrinterServiceImpl implements TennisGameHistoryPri
     @Override
     public void printScoreFromGameHistory(String gameHistory) {
         List<TennisGameState> tennisGameStates = tennisGameHistoryProcessorService
-                .generateGameStatesFromHistory(gameHistory).stream()
-                .filter(gameState -> Objects.nonNull(gameState.currentWinnerId())).toList();
+                .generateGameStatesFromHistory(gameHistory);
         for (var lastGameState : tennisGameStates) {
             if (lastGameState.winner().isEmpty()) {
                 print(lastGameState);
