@@ -1,6 +1,7 @@
 ```
 //create the printing service
-TennisGameHistoryPrinterService tennisGameHistoryPrinterService = new TennisGameHistoryPrinterServiceImpl();
+TennisGameHistoryPrinterService tennisGameHistoryPrinterService = 
+new TennisGameHistoryPrinterServiceImpl();
 
 //process + print score states
 tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
