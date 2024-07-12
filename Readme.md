@@ -20,7 +20,8 @@ tennisGameHistoryPrinterService.printScoreFromGameHistory("AABABBBAAA");
                 A > Player A: ADVANTAGE / Player B: 40
                 A > Player A wins the game
 
-> lunch with command line [TennisGameApplication.java](https://github.com/haniBelg/tennis-kata/blob/master/src/main/java/kata/TennisGameApplication.java) as class entrypoint : java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
+> lunch with command line : java -jar ./target/tennis-kata-1.0-SNAPSHOT.jar AABBABABBB
+> this uses [TennisGameApplication.java](https://github.com/haniBelg/tennis-kata/blob/master/src/main/java/kata/TennisGameApplication.java) as main class entrypoint
 
                 A > Player A: 15 / Player B: 0
                 A > Player A: 30 / Player B: 0
