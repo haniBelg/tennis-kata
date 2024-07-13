@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 import kata.tennis.services.exceptions.GameAlreadyFinishedException;
 import kata.tennis.services.exceptions.UnsupportedPlayersCountException;
 
-public class GameRunnerTests {
+public class GameRunnerTest {
 
     GameRunner gameRunner;
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
@@ -155,7 +155,7 @@ public class GameRunnerTests {
         // when
         gameRunner.printGameScoresFromHistory(gameHistory);
         // then
-        assertEquals(expectedOutput, outContent.toString());
+            assertEquals(expectedOutput, outContent.toString());
     }
 
     @Test

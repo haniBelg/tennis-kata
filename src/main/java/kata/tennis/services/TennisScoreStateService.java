@@ -1,6 +1,7 @@
 package kata.tennis.services;
 
 import kata.tennis.domain.state.TennisScoreState;
+import kata.tennis.services.exceptions.UnsupportedGameStatusException;
 
 /**
  * This interface defines the service for managing and updating the score state
@@ -14,5 +15,5 @@ public interface TennisScoreStateService {
      * @return the next {@link TennisScoreState} representing the updated score
      *         state of the game.
      */
-    TennisScoreState getNextScoreState(TennisScoreState currentScoreState);
+    TennisScoreState getNextScoreState(TennisScoreState currentScoreState) throws UnsupportedGameStatusException;
 }

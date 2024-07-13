@@ -11,7 +11,7 @@ import kata.tennis.domain.TennisScore;
 import kata.tennis.domain.state.TennisScoreState;
 import kata.tennis.services.TennisScoreStateService;
 
-public class TennisScoreStateServiceImplTests {
+public class TennisScoreStateServiceImplTest {
 
         // Tests are designed around the SOLID principle of Dependency Inversion,
         // focusing on the TennisGameHistoryPrinterService interface rather than its
